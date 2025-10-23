@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GRRRRRRR</title>
+    <style>
+      #result {
+        width: 256px;
+        height: 256px;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" id="text"> <br>
+    <button id="generate">Generate</button>
+    <button id="save">Save</button> <br>
+    <canvas id="result"></canvas>
+    <script>
+      const canvas = document.getElementById("result");
+      const ctx = canvas.getContext("2d");
+
+      new FontFace("grr", "url(./grr.ttf) format('truetype')").load().then((font) => {
+        document.fonts.add(font);
+        ctx.font = "500px grr";
+      });
+
+      const text = document.getElementById("text");
+      const generate = document.getElementById("generate");
+      const save = document.getElementById("save");
+
+      const grrimg = new Image();
+      
+      let space = 0;
+      grrimg.onload = function() {
+        space = grrimg.height / 3;
+        console.log(space);
+
+        canvas.width = grrimg.width;
+        canvas.height = grrimg.height + space;
+      };
+
+      grrimg.crossOrigin = "anonymous";
+      grrimg.src = "./grr.png";
+
+      save.disabled = true;
+
+      generate.onclick = function() {
+        save.disabled = false;
+
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.drawImage(grrimg, 0, space, grrimg.width, grrimg.height);
+
+        let size = 500;
+        ctx.font = `${size}px grr`;
+        while (ctx.measureText(text.value).width > grrimg.width || ctx.measureText(text.vaue).height > space) {
+          size -= 1;
+          ctx.font = `${size}px grr`;
+        }
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text.value, canvas.width / 2, space / 2);
+      }
+
+      save.onclick = function() {
+        var link = document.createElement("a");
+        link.download = "grr.png";
+        link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        link.click();
+      }
+    </script>
+  </body>
+</html>
