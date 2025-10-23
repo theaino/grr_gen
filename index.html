@@ -3,9 +3,17 @@
   <head>
     <title>GRRRRRRR</title>
     <style>
+      * {
+        font-size: 1.5rem;
+      }
       #result {
-        width: 256px;
-        height: 256px;
+        width: 20rem;
+        height: 20rem;
+      }
+      @media (min-width: 320px) {
+        * {
+          font-size: 2rem;
+        }
       }
     </style>
   </head>
@@ -32,7 +40,6 @@
       let space = 0;
       grrimg.onload = function() {
         space = grrimg.height / 3;
-        console.log(space);
 
         canvas.width = grrimg.width;
         canvas.height = grrimg.height + space;
